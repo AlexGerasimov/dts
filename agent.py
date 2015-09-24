@@ -18,7 +18,7 @@ import marshal, types
 import importlib
 #from contextlib import redirect_stdout
 
-
+couchdbServer = "http://balboa:5984"
 
 class Task:
     def __init__(self, name, opts, resdir):
@@ -245,7 +245,7 @@ def go():
     while True:
         time.sleep(1)
 
-        couch = couchdb.Server()
+        couch = couchdb.Server(couchdbServer) if len(couchdbServer) > 0 else couchdb.Server()
         db = couch['requests']
 
         logger.debug('new step')
