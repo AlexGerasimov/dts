@@ -182,6 +182,8 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         for k in form:
             if k.endswith('.version'):
+                tkey_list = k.split('.')
+                task_name = tkey_list[0]
                 task_version = form[k].value
                 tasks_args.setdefault(task_name, dict()).setdefault('version', task_version)
             elif k.endswith('.type'):
@@ -258,8 +260,9 @@ if __name__ == '__main__':
         if table_name not in couch:
             couch.create(table_name)
 
-        port = 8080 
-        url = "http://bop:%d/" % port
+        port = 8080
+        host = "balboa"
+        url = "http://{0}:{1}/".format(host, port)
         print "Ask user to visit this URL:\n\t%s" % url
         srvr = ForkingHTTPServer(('', port), handler_class)
         srvr.serve_forever()  # serve_forever
